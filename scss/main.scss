@@ -3,42 +3,42 @@
 
 body {
   font-family: "Roboto", sans-serif;
-  color: #000;
   font-size: 20px;
+  color: #000;
 }
 a {
-  text-decoration: none;
   color: inherit;
+  text-decoration: none;
 }
 #main {
-  background-color: #ddd;
   width: 100vw;
   height: 100vh;
   overflow: hidden;
+  background-color: #ddd;
   #calendar {
+    display: flex;
     width: 95vw;
     height: 95vh;
-    border-radius: 30px;
-    display: flex;
     margin: auto;
     margin-top: 2.5vh;
+    border-radius: 30px;
     .left {
-      flex-basis: 45%;
-      background-color: #034ea2;
-      // color: #ddaf35;
-      color: #fff;
-      border-radius: 15px 0 0 15px;
       display: flex;
       justify-content: center;
-      flex-direction: column;
       align-items: center;
+      flex-direction: column;
+      flex-basis: 45%;
+      // color: #ddaf35;
+      color: #fff;
+      background-color: #034ea2;
+      border-radius: 15px 0 0 15px;
       .showDateWrap {
-        text-align: center;
         margin-bottom: 50px;
+        text-align: center;
         user-select: none;
         .showDay {
-          font-size: 40px;
           margin-bottom: 20px;
+          font-size: 40px;
         }
         .showDate {
           font-size: 180px;
@@ -49,40 +49,40 @@ a {
         .tdListTitle {
           user-select: none;
           h3 {
-            font-size: 24px;
             margin-bottom: 30px;
+            font-size: 24px;
           }
         }
         .writeZone {
           width: 100%;
           margin-bottom: 50px;
           input {
-            background-color: transparent;
-            outline: none;
+            width: 500px;
+            margin-right: 20px;
+            padding-bottom: 5px;
             border: none;
             // border-bottom: 1px dashed #ddaf35;
             border-bottom: 1px dashed #fff;
-            margin-right: 20px;
             font-family: inherit;
+            font-size: 24px;
             // color: #ddaf35;
             color: #fff;
-            padding-bottom: 5px;
-            width: 500px;
-            font-size: 24px;
+            background-color: transparent;
+            outline: none;
             &::placeholder {
               color: #002b5c;
             }
           }
           .todoBtn {
-            background: none;
-            outline: none;
+            padding: 13px 15px;
             border: none;
+            background: none;
+            transition: all 0.2s ease-in-out;
+            outline: none;
             // background-color: #ddaf35;
             background-color: #fff;
-            padding: 13px 15px;
             border-radius: 10px;
             cursor: pointer;
-            transition: all 0.2s ease-in-out;
             &:hover {
               background-color: #fff;
             }
@@ -92,8 +92,8 @@ a {
           }
         }
         .todoList {
-          padding: 0 150px 0 10px;
           height: 150px;
+          padding: 0 150px 0 10px;
           overflow-y: hidden;
           li {
             display: flex;
@@ -102,28 +102,28 @@ a {
             margin-bottom: 15px;
             span {
               display: flex;
-              user-select: none;
               align-items: center;
+              user-select: none;
               &.check {
                 text-decoration: line-through;
               }
               &::before {
-                content: "";
                 display: block;
                 width: 3px;
                 height: 3px;
+                margin-right: 5px;
+                content: "";
                 border-radius: 3px;
                 // background-color: #ddaf35;
                 background-color: #fff;
-                margin-right: 5px;
               }
             }
             .xBtn {
-              outline: none;
               border: none;
-              background: none;
               // color: #ddaf35;
               color: #fff;
+              background: none;
+              outline: none;
               cursor: pointer;
             }
           }
@@ -132,49 +132,49 @@ a {
     }
     .right {
       flex-basis: 55%;
+      color: #0b0809;
       // background-color: #ddaf35;
       background-color: #fff;
-      color: #0b0809;
       border-radius: 0 15px 15px 0;
       .calendarWrap {
         margin: 150px 100px;
         .cHeader {
-          margin-bottom: 50px;
           display: flex;
           justify-content: space-between;
+          margin-bottom: 50px;
           user-select: none;
           button {
-            outline: none;
             border: none;
             background: none;
+            outline: none;
             cursor: pointer;
             .material-icons {
-              font-weight: 500;
               font-size: 30px;
+              font-weight: 500;
             }
           }
           .yearMonth {
+            display: flex;
+            justify-content: space-between;
             width: 25%;
             font-size: 24px;
             font-weight: 500;
-            display: flex;
-            justify-content: space-between;
           }
         }
         .cBody {
           .weekly {
             display: flex;
-            width: 100%;
             justify-content: space-between;
+            width: 100%;
             margin-bottom: 20px;
             font-weight: 700;
             user-select: none;
             li {
               display: flex;
-              align-items: center;
               justify-content: center;
-              position: relative;
+              align-items: center;
               width: calc(100% / 7 - 4px);
+              position: relative;
               margin: 2px;
               &.sun {
                 color: #ef3333;
@@ -187,24 +187,24 @@ a {
           .date {
             display: flex;
             flex-wrap: wrap;
-            font-weight: 700;
             font-size: 24px;
+            font-weight: 700;
             li {
               display: flex;
-              align-items: center;
               justify-content: center;
-              position: relative;
+              align-items: center;
               width: calc(100% / 7);
+              position: relative;
               &::before {
-                content: "";
                 display: block;
                 padding-top: 70%;
+                content: "";
               }
               &.off {
                 span {
+                  color: darken(#ddd, 10);
                   user-select: none;
                   cursor: default;
-                  color: darken(#ddd, 10);
                   &:hover {
                     background-color: #034ea2;
                   }
@@ -212,28 +212,28 @@ a {
               }
               &.click {
                 span {
-                  background-color: #0b0809;
                   color: #f6f6f6;
+                  background-color: #0b0809;
                   border-radius: 100%;
                   &:hover {
-                    background-color: #0b0809;
                     color: #f6f6f6;
+                    background-color: #0b0809;
                     border-radius: 100%;
                   }
                 }
               }
               span {
-                user-select: none;
                 display: block;
                 width: 50px;
                 height: 50px;
-                cursor: pointer;
                 text-align: center;
                 line-height: 50px;
+                user-select: none;
+                cursor: pointer;
                 &:hover {
+                  color: #fff;
                   border-radius: 100%;
                   background-color: darken(#034ea2, 10);
-                  color: #fff;
                 }
               }
             }
