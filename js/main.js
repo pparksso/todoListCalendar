@@ -64,12 +64,12 @@ const siblingsList = function () {
   let dateList = document.querySelectorAll(".right .date li");
   siblings = [...dateList];
 
-  siblings.forEach(function (item) {
-    item.addEventListener("click", function () {
+  siblings.forEach((item) => {
+    item.addEventListener("click", () => {
       if (item.classList.contains("off")) {
         return false;
       }
-      siblings.forEach(function (item2) {
+      siblings.forEach((item2) => {
         item2.classList.remove("click");
       });
       showDate.innerHTML = `<h2>${item.dataset.date}</h2>`;
@@ -83,14 +83,14 @@ makeCalendar(todayYear, todayMonth);
 siblingsList();
 
 //계속해서 current의 인수는 바뀐다.
-preBtn.addEventListener("click", function () {
+preBtn.addEventListener("click", () => {
   current = new Date(current.getFullYear(), current.getMonth() - 1);
   makeCalendar(current.getFullYear(), current.getMonth());
   siblingsList();
   showyear.innerHTML = `${current.getFullYear()}`;
   showMonth.innerHTML = `${monthlyArr[current.getMonth()]}`;
 });
-nextBtn.addEventListener("click", function () {
+nextBtn.addEventListener("click", () => {
   current = new Date(current.getFullYear(), current.getMonth() + 1);
   makeCalendar(current.getFullYear(), current.getMonth());
   siblingsList();
@@ -102,51 +102,41 @@ nextBtn.addEventListener("click", function () {
 
 let todoEl = "";
 let todoArray = [];
-const todoListMaker = function () {
+let todoObj = {};
+
+const todoMake = (todayYear, todayMonth, todayDate) => {
   let doItValue = todoWrite.value;
+  ObjDate = `${todayYear}/${todayMonth}/${todayDate}`;
+  todoObj["date"] = ObjDate;
+  todoObj["todo"] = doItValue;
+  todoArray.push(todoObj);
+  window.localStorage.setItem("todo", JSON.stringify(todoArray));
+  todoJson = JSON.parse(localStorage.getItem(`todo`));
+  todoArray = [...new Set(todoJson)];
+  const todoObjTodo = todoArray.filter((item) => {
+    if (item.date === `${todayYear}/${todayMonth}/${todayDate}`) {
+      return true;
+    }
+  });
+  todoObjTodo.forEach((item) => {
+    todoEl = item.todo;
+  });
+};
+const todoListMaker = () => {
   let todoYear = current.getFullYear();
   let todoMonth = current.getMonth();
   let clickDate = document.querySelector(".right .date .click");
   let ObjDate = "";
-  let todoObj = {};
   if (clickDate === null) {
-    ObjDate = `${todayYear}/${todayMonth}/${todayDate}`;
-    todoObj["date"] = ObjDate;
-    todoObj["todo"] = doItValue;
-    todoArray.push(todoObj);
-    window.localStorage.setItem("todo", JSON.stringify(todoArray));
-    todoJson = JSON.parse(localStorage.getItem(`todo`));
-    todoArray = [...new Set(todoJson)];
-    const todoObjTodo = todoArray.filter(function (item) {
-      if (item.date === `${todayYear}/${todayMonth}/${todayDate}`) {
-        return true;
-      }
-    });
-    todoObjTodo.forEach(function (item) {
-      todoEl = item.todo;
-    });
+    todoMake(todayYear, todayMonth, todayDate);
   } else {
     let clickDateEl = clickDate.getAttribute("data-date");
-    ObjDate = `${todoYear}/${todoMonth}/${clickDateEl}`;
-    todoObj["date"] = ObjDate;
-    todoObj["todo"] = doItValue;
-    todoArray.push(todoObj);
-    window.localStorage.setItem("todo", JSON.stringify(todoArray));
-    todoJson = JSON.parse(localStorage.getItem(`todo`));
-    todoArray = [...new Set(todoJson)];
-    const todoObjTodo = todoArray.filter(function (item) {
-      if (item.date === `${todoYear}/${todoMonth}/${clickDateEl}`) {
-        return true;
-      }
-    });
-    todoObjTodo.forEach(function (item) {
-      todoEl = item.todo;
-    });
+    todoMake(todoYear, todoMonth, clickDateEl);
   }
   todoList.innerHTML += `<li class = "todoListEl"><span class = "todoItem">${todoEl}</span><button class="xBtn" data-date='${ObjDate}' data-todo="${todoEl}">X</button></li>`;
 
   const xBtns = document.querySelectorAll(".xBtn");
-  xBtns.forEach(function (item, idex) {
+  xBtns.forEach((item, idex) => {
     item.addEventListener("click", function () {
       item.parentNode.remove();
       todoJson = JSON.parse(localStorage.getItem(`todo`));
@@ -161,31 +151,17 @@ const todoListMaker = function () {
   });
 
   const todoItems = document.querySelectorAll(".todoItem");
-  todoItems.forEach(function (item, idx) {
+  todoItems.forEach((item) => {
     item.addEventListener("click", function () {
       item.classList.toggle("check");
     });
   });
 };
-startDisplay();
-//처음 로드 됐을 때 상태
-function startDisplay() {
-  const todoListEls = document.querySelectorAll(".todoListEl");
-  let ObjDate = `${todayYear}/${todayMonth}/${todayDate}`;
-  let todoJson = JSON.parse(localStorage.getItem(`todo`));
-  todoArray = [...new Set(todoJson)];
 
-  const todoObjTodo = todoArray.filter(function (item) {
-    if (item.date === `${todayYear}/${todayMonth}/${todayDate}`) {
-      return true;
-    }
-  });
-  todoObjTodo.forEach(function (item) {
-    todoEl = item.todo;
-    todoList.innerHTML += `<li class = "todoListEl"><span class = "todoItem">${todoEl}</span><button class="xBtn" data-date='${ObjDate}' data-todo="${todoEl}">X</button></li>`;
-  });
+//처음 로드 됐을 때 상태
+const xBtnWork = () => {
   const xBtns = document.querySelectorAll(".xBtn");
-  xBtns.forEach(function (item, idex) {
+  xBtns.forEach(function (item) {
     item.addEventListener("click", function () {
       item.parentNode.remove();
       todoJson = JSON.parse(localStorage.getItem(`todo`));
@@ -198,7 +174,26 @@ function startDisplay() {
       window.localStorage.setItem("todo", JSON.stringify(todoArray));
     });
   });
-}
+};
+const startDisplay = () => {
+  const todoListEls = document.querySelectorAll(".todoListEl");
+  let ObjDate = `${todayYear}/${todayMonth}/${todayDate}`;
+  let todoJson = JSON.parse(localStorage.getItem(`todo`));
+  todoArray = [...new Set(todoJson)];
+
+  const todoObjTodo = todoArray.filter((item) => {
+    if (item.date === `${todayYear}/${todayMonth}/${todayDate}`) {
+      return true;
+    }
+  });
+  todoObjTodo.forEach((item) => {
+    todoEl = item.todo;
+    todoList.innerHTML += `<li class = "todoListEl"><span class = "todoItem">${todoEl}</span><button class="xBtn" data-date='${ObjDate}' data-todo="${todoEl}">X</button></li>`;
+  });
+  xBtnWork();
+};
+
+startDisplay();
 
 todoBtn.addEventListener("click", function () {
   if (todoWrite.value === "") {
@@ -221,8 +216,8 @@ todoWrite.addEventListener("keydown", function (e) {
 });
 
 const dates = document.querySelectorAll(".right .date li");
-dates.forEach(function (item, index) {
-  item.addEventListener("click", function () {
+dates.forEach((item) => {
+  item.addEventListener("click", () => {
     todoList.innerHTML = "";
     let todoYear = current.getFullYear();
     let todoMonth = current.getMonth();
@@ -240,19 +235,6 @@ dates.forEach(function (item, index) {
       todoEl = item.todo;
       todoList.innerHTML += `<li class = "todoListEl"><span class = "todoItem">${todoEl}</span><button class="xBtn" data-date='${ObjDate}' data-todo="${todoEl}">X</button></li>`;
     });
-    const xBtns = document.querySelectorAll(".xBtn");
-    xBtns.forEach(function (item, idex) {
-      item.addEventListener("click", function () {
-        item.parentNode.remove();
-        todoJson = JSON.parse(localStorage.getItem(`todo`));
-        todoArray = [...new Set(todoJson)];
-        for (let i = 0; i < todoArray.length; i++) {
-          if (todoArray[i].date === item.dataset.date && todoArray[i].todo === item.dataset.todo) {
-            todoArray.splice(i, 1);
-          }
-        }
-        window.localStorage.setItem("todo", JSON.stringify(todoArray));
-      });
-    });
+    xBtnWork();
   });
 });
